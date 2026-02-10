@@ -59,12 +59,7 @@ public class SchiffeVersenken {
     }
     public void PrintUI(int remShips, int remCanons) {
         if (remShips > 0 && remCanons > 0) {
-            if (remShips > 6) {
-                remShips = 6;
-            }
-            if (remCanons > 21) {
-                remCanons = 21;
-            }
+
             String[] ship = {
                     "     |     ",
                     "  ___|___  ",
@@ -83,6 +78,13 @@ public class SchiffeVersenken {
             }
              */
             System.out.printf("Kanonenkugeln: %d\n", remCanons);
+
+            if (remShips > 6) {
+                remShips = 6;
+            }
+            if (remCanons > 21) {
+                remCanons = 21;
+            }
             String[] canons = new String[findMaxSum(remCanons)];
             for (int i = 0; i < canons.length; i++) {
                 canons[i] = "";
