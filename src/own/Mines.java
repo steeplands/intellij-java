@@ -1,9 +1,13 @@
 package own;
 
+import javax.swing.JFrame;
+import javax.swing.*;
 import helper.ANSI;
 import helper.PRNG;
 import helper.SavitchIn;
+import java.awt.*;
 
+import javax.swing.JFrame;//Importanweisung
 public class Mines {
     public static int[][] findNeigbours(int[][] map, int y, int x) {
         int neighbours = 8;
@@ -116,15 +120,50 @@ public class Mines {
             System.out.printf("\n%d ", y + 1);
             for (int x = 0; x < userInterface[y].length; x++) {
                 if (userInterface[y][x] == '\u0000') {
-                    System.out.printf(" " + ANSI.ANSI_YELLOW + " " + ANSI.ANSI_RESET + " ");
+                    System.out.print("   ");
                 }
                 else if (userInterface[y][x] == 'F') {
                     System.out.printf(" %s ", ANSI.ANSI_CYAN + "F" + ANSI.ANSI_RESET);
                 }
                 else {
-                    System.out.printf(" %c ", (userInterface[y][x]));
+                    String color = switch (userInterface[y][x]) {
+                        case '1', '2' -> ANSI.ANSI_YELLOW;
+                        case '3', '4', '5', '6', '7', '8' -> ANSI.ANSI_PURPLE;
+                        default -> ANSI.ANSI_RESET;
+                    };
+                    System.out.printf(color + " %c%s ", userInterface[y][x], ANSI.ANSI_RESET);
                 }
                 System.out.print("|");
+            }
+        }
+    }
+    public static void ClearMap(int[][] map, char[][] userInterface, char flag, char mine) {
+        System.out.print("\n\n   ");
+        for (int y = 1; y <= userInterface.length; y++) {
+            System.out.printf(" %d  ", y);
+        }
+        for (int y = 0; y < map.length; y++) {
+            System.out.print("\n  ");
+            for (int x = 0; x < userInterface.length; x++) {
+                System.out.print("----");
+            }
+            System.out.printf("\n%d", y+1);
+            for (int x = 0; x < map[y].length; x++) {
+                System.out.print(" | ");
+                if (userInterface[y][x] == flag) {
+                    if (map[y][x] == -1) {
+                        System.out.print(ANSI.ANSI_GREEN + mine + ANSI.ANSI_RESET);
+                    }
+                    else {
+                        System.out.print(ANSI.ANSI_RED + mine + ANSI.ANSI_RESET);
+                    }
+                }
+                else if (map[y][x] == -1 && userInterface[y][x] != flag) {
+                    System.out.print(ANSI.ANSI_RED + mine + ANSI.ANSI_RESET);
+                }
+                else {
+                    System.out.print((userInterface[y][x]) == '\u0000' ? ' ' : userInterface[y][x]);
+                }
             }
         }
     }
@@ -147,6 +186,7 @@ public class Mines {
         }
 
         while (mines > 0) {
+            PrintArray(userInterface);
             System.out.print("\nEvent: Flag / Dig (F/D)\n");
             word = SavitchIn.readLineWord();
             if (word.equals("F") || word.equals("f") && !flagmode) {
@@ -178,32 +218,7 @@ public class Mines {
                 }
             }
             System.out.printf(ANSI.ANSI_RED + "\n%d\n" + ANSI.ANSI_RESET, mines);
-            PrintArray(userInterface);
         }
-
-        System.out.print("\n  ");
-        for (int y = 1; y <= userInterface.length; y++) {
-            System.out.printf(" %d ", y);
-        }
-        for (int y = 0; y < map.length; y++) {
-            System.out.println();
-            for (int x = 0; x < map[y].length; x++) {
-                System.out.print(" ");
-                if (userInterface[y][x] == flag) {
-                    if (map[y][x] == -1) {
-                        System.out.print(ANSI.ANSI_GREEN + mine + ANSI.ANSI_RESET);
-                    }
-                    else {
-                        System.out.print(ANSI.ANSI_RED + mine + ANSI.ANSI_RESET);
-                    }
-                }
-                else if (map[y][x] == -1 && userInterface[y][x] != flag) {
-                    System.out.print(ANSI.ANSI_RED + mine + ANSI.ANSI_RESET);
-                }
-                else {
-                    System.out.print((userInterface[y][x]) == '\u0000' ? ' ' : userInterface[y][x]);
-                }
-            }
-        }
+        ClearMap(map, userInterface, flag, mine);
     }
 }

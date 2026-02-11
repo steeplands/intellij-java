@@ -61,7 +61,7 @@ public class SchiffeVersenken {
         if (remShips > 0 && remCanons > 0) {
 
             String[] ship = {
-                    "     |     ",
+                    "     |>    ",
                     "  ___|___  ",
                     " /   |   \\ ",
                     " \\___|___/ ",

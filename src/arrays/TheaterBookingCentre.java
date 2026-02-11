@@ -1,5 +1,6 @@
 package arrays;
 
+import helper.ANSI;
 import helper.PRNG;
 import helper.SavitchIn;
 
@@ -77,13 +78,10 @@ public class TheaterBookingCentre {
         int x = SavitchIn.readLineInt();
         boolean[][] sit;
         sit = createTheater(x);
-        while(getNumberOfUnbookedSeats(sit) > 0) {
-            System.out.println("Reihe: ");
-            int row = SavitchIn.readLineInt();
-            System.out.println("Sitz: ");
-            int seat = SavitchIn.readLineInt();
-            bookSeat(sit, row, seat);
-            printTheater(sit);
-        }
+        System.out.printf("The Booking Theater\n"
+                + ANSI.ANSI_RED + "Create Theater\n"
+                + ANSI.ANSI_YELLOW + "Book a seat\n"
+                + ANSI.ANSI_GREEN + "Book a random seat\n"
+                + ANSI.ANSI_RESET + "Show Theater\n");
     }
 }
